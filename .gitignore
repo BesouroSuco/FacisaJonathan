@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.angular/
+backend/target/
+backend/.mvn/apache-maven-*/
+backend/.mvn/*.zip
+backend/.mvn/*.tar.gz
+.env
+*.log
+.DS_Store
+.idea/

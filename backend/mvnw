@@ -1,0 +1,19 @@
+#!/usr/bin/env sh
+set -eu
+if command -v mvn >/dev/null 2>&1; then exec mvn "$@"; fi
+base=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
+version=3.9.9
+folder="$base/.mvn/apache-maven-$version"
+if [ ! -f "$folder/bin/mvn" ]; then
+  archive="$base/.mvn/maven.tar.gz"
+  url="https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/$version/apache-maven-$version-bin.tar.gz"
+  echo 'Baixando Maven na primeira execucao...'
+  curl -fsSL "$url" -o "$archive"
+  expected=$(curl -fsSL "$url.sha512" | awk '{print $1}')
+  if command -v sha512sum >/dev/null 2>&1; then actual=$(sha512sum "$archive" | awk '{print $1}');
+  else actual=$(shasum -a 512 "$archive" | awk '{print $1}'); fi
+  [ "$actual" = "$expected" ] || { echo 'Checksum de Maven nao confere.'; exit 1; }
+  tar -xzf "$archive" -C "$base/.mvn"
+  rm "$archive"
+fi
+exec "$folder/bin/mvn" "$@"

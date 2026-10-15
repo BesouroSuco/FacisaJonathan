@@ -1,0 +1,41 @@
+### Requer a extensao REST Client do VS Code (opcional).
+@base = http://localhost:8080/api
+### Listar produtos
+GET {{base}}/produtos
+### Criar produto: copie o ID retornado para produtoId.
+POST {{base}}/produtos
+Content-Type: application/json
+
+{"nome":"Luminária Cubic","descricao":"Luminária decorativa em PLA bege","preco":200.00}
+
+### SUBSTITUA pelos IDs retornados nos POSTs.
+@produtoId = COLE_O_ID_DO_PRODUTO
+@clienteId = COLE_O_ID_DO_CLIENTE
+### Buscar produto por ID
+GET {{base}}/produtos/{{produtoId}}
+### Editar produto
+PUT {{base}}/produtos/{{produtoId}}
+Content-Type: application/json
+
+{"nome":"Luminária Cubic","descricao":"Luminária em PLA branco","preco":190.00}
+
+### Excluir produto
+DELETE {{base}}/produtos/{{produtoId}}
+### Listar clientes
+GET {{base}}/clientes
+### Criar cliente
+POST {{base}}/clientes
+Content-Type: application/json
+
+{"nome":"Ana Silva","telefone":"83999999999","email":"ana@example.com"}
+
+### Buscar cliente
+GET {{base}}/clientes/{{clienteId}}
+### Editar cliente
+PUT {{base}}/clientes/{{clienteId}}
+Content-Type: application/json
+
+{"nome":"Ana Souza","telefone":"83988888888","email":"ana.souza@example.com"}
+
+### Excluir cliente
+DELETE {{base}}/clientes/{{clienteId}}

@@ -1,0 +1,19 @@
+<section class="page"><div class="page-title"><div><p class="eyebrow">CADASTRO</p><h1>Clientes</h1><p>Organize os contatos dos seus clientes.</p></div><span class="counter">{{ itens.length }} registros</span></div>
+@if (erro) { <div class="alert error" role="alert">{{ erro }}</div> }
+@if (mensagem) { <div class="alert success" role="status">{{ mensagem }}</div> }
+<div class="content-grid"><section class="card"><div class="card-heading"><h2>{{ editandoId ? 'Editar cliente' : 'Novo cliente' }}</h2><p>Preencha os dados abaixo.</p></div>
+<form [formGroup]="form" (ngSubmit)="salvar()"><fieldset [disabled]="salvando || !!excluindoId"><label for="clientes-nome">Nome</label><input id="clientes-nome" formControlName="nome" type="text" maxlength="100">
+@if (invalido('nome')) { <small class="field-error">Confira o campo nome.</small> }
+<label for="clientes-telefone">Telefone</label><input id="clientes-telefone" formControlName="telefone" type="tel" maxlength="25">
+@if (invalido('telefone')) { <small class="field-error">Confira o campo telefone.</small> }
+<label for="clientes-email">E-mail</label><input id="clientes-email" formControlName="email" type="email" maxlength="150">
+@if (invalido('email')) { <small class="field-error">Confira o campo e-mail.</small> }
+
+<div class="form-actions"><button type="submit" [disabled]="salvando || !!excluindoId">{{ salvando ? 'Aguarde...' : 'Salvar cliente' }}</button><button type="button" class="secondary" (click)="cancelar()" [disabled]="salvando || !!excluindoId">{{ editandoId ? 'Cancelar edição' : 'Limpar' }}</button></div></fieldset></form></section>
+<section class="card list"><div class="list-heading"><h2>Clientes cadastrados</h2><button type="button" class="secondary" (click)="carregar()" [disabled]="carregando || salvando || !!excluindoId">Atualizar</button></div>
+@if (carregando) { <p class="empty" role="status">Carregando...</p> }
+@else if (itens.length === 0) { <p class="empty">Nenhum cliente cadastrado. Use o formulário para começar.</p> }
+@else { <div class="table-wrap"><table><thead><tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Ações</th></tr></thead><tbody>
+@for (item of itens; track item.id) { <tr><td>{{ item.nome }}</td><td>{{ item.telefone }}</td><td>{{ item.email }}</td><td class="row-actions"><button type="button" class="text-button" (click)="editar(item)" [disabled]="salvando || !!excluindoId">Editar</button><button type="button" class="text-button danger" (click)="excluir(item)" [disabled]="salvando || !!excluindoId">{{ excluindoId === item.id ? 'Excluindo...' : 'Excluir' }}</button></td></tr> }
+</tbody></table></div> }
+</section></div></section>
